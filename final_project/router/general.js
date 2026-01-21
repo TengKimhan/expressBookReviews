@@ -30,9 +30,29 @@ public_users.get("/", (req, res) => {
 });
 
 // Get book details based on ISBN
-public_users.get("/isbn/:isbn", function (req, res) {
+public_users.get("/isbn/:isbn", (req, res) => {
   //Write your code here
-  return res.status(300).json({ message: "Yet to be implemented" });
+  // return res.status(300).json({ message: "Yet to be implemented" });
+  const ISBN = req.params.isbn;
+  const booksBasedOnIsbn = (ISBN) => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const book = books[ISBN];
+        if (book) {
+          resolve(book);
+        } else {
+          reject(new Error("Book not found"));
+        }
+      }, 1000);
+    });
+  };
+  booksBasedOnIsbn(ISBN)
+    .then((book) => {
+      res.json(book);
+    })
+    .catch((err) => {
+      res.status(400).json({ error: "Book not found" });
+    });
 });
 
 // Get book details based on author
