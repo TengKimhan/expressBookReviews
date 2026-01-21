@@ -84,15 +84,39 @@ public_users.get("/author/:author", (req, res) => {
 });
 
 // Get all books based on title
-public_users.get("/title/:title", function (req, res) {
+public_users.get("/title/:title", (req, res) => {
   //Write your code here
-  return res.status(300).json({ message: "Yet to be implemented" });
+  // return res.status(300).json({ message: "Yet to be implemented" });
+  const title = req.params.title;
+  const booksBasedOnTitle = (booktitle) => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const filteredbooks = Object.values(books).filter(
+          (b) => b.title === booktitle,
+        );
+        if (filteredbooks.length > 0) {
+          resolve(filteredbooks);
+        } else {
+          reject(new Error("Book not found"));
+        }
+      }, 1000);
+    });
+  };
+  booksBasedOnTitle(title)
+    .then((new_books) => {
+      res.json(new_books);
+    })
+    .catch((err) => {
+      res.status(400).json({ error: "Book not found" });
+    });
 });
 
 //  Get book review
-public_users.get("/review/:isbn", function (req, res) {
+public_users.get("/review/:isbn", async (req, res) => {
+  const isbn = req.params.isbn;
+  await res.send(JSON.stringify(books[isbn].review), null, 4);
   //Write your code here
-  return res.status(300).json({ message: "Yet to be implemented" });
+  // return res.status(300).json({ message: "Yet to be implemented" });
 });
 
 module.exports.general = public_users;
