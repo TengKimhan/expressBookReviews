@@ -1,1 +1,3 @@
-# coding-project-template
+# IBM Developing Back-End Apps with Node.js and Express
+
+A final project Book Review Application.
