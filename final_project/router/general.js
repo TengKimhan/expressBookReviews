@@ -10,9 +10,23 @@ public_users.post("/register", (req, res) => {
 });
 
 // Get the book list available in the shop
-public_users.get("/", function (req, res) {
+public_users.get("/", (req, res) => {
   //Write your code here
-  return res.status(300).json({ message: "Yet to be implemented" });
+  // return res.status(300).json({ message: "Yet to be implemented" });
+  const getBooks = () => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(books);
+      }, 1000);
+    });
+  };
+  getBooks()
+    .then((books) => {
+      res.json(books);
+    })
+    .catch((err) => {
+      res.status(500).json({ error: "An error occured" });
+    });
 });
 
 // Get book details based on ISBN
